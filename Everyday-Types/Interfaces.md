@@ -500,6 +500,178 @@ const myWindow: Window = {
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
+**Interface Declaration Merging** কিভাবে কাজ করে, তা বোঝানো হবে।
+
+### নতুন উদাহরণ: ডিক্লেয়ারেশন মার্জিং
+
+ধরা যাক, আমাদের একটি `Employee` ইন্টারফেস আছে, যা একজন কর্মীর তথ্য ধারণ করবে। তারপর, আমরা একটি নতুন ইন্টারফেস ঘোষণা করব এবং পুরানো ইন্টারফেসের সাথে মার্জ করব। এই উদাহরণে, আমরা মার্জিংয়ের মাধ্যমে নতুন প্রপার্টি যোগ করবো।
+
+### কোড:
+
+```typescript
+// প্রথম ইন্টারফেস: Employee
+interface Employee {
+  name: string;
+  age: number;
+}
+
+// দ্বিতীয় ইন্টারফেস: Employee এর সাথে নতুন প্রপার্টি যোগ করা হচ্ছে
+interface Employee {
+  department: string;
+  salary: number;
+}
+
+// এখন, আমরা একটি অবজেক্ট তৈরি করি Employee টাইপের, যা দুটি ইন্টারফেসের সব প্রপার্টি ধারণ করবে
+const emp: Employee = {
+  name: "John Doe",
+  age: 28,
+  department: "Engineering",
+  salary: 50000
+};
+
+console.log(emp.name);        // John Doe
+console.log(emp.age);         // 28
+console.log(emp.department);  // Engineering
+console.log(emp.salary);      // 50000
+```
+
+### ব্যাখ্যা:
+
+1. **প্রথম ইন্টারফেস (Employee):**  
+   এখানে, প্রথম ইন্টারফেস `Employee` ঘোষণা করা হয়েছে যেখানে দুটি প্রপার্টি আছে:
+   - `name: string` (কর্মীর নাম)
+   - `age: number` (কর্মীর বয়স)
+
+2. **দ্বিতীয় ইন্টারফেস (Employee):**  
+   এর পরে, আমরা আবার একই নামের `Employee` ইন্টারফেস ঘোষণা করেছি, কিন্তু এবার দুটি নতুন প্রপার্টি যোগ করেছি:
+   - `department: string` (কর্মীর বিভাগ)
+   - `salary: number` (কর্মীর বেতন)
+
+3. **ডিক্লেয়ারেশন মার্জিং:**  
+   TypeScript এই দুটি `Employee` ইন্টারফেস একত্রিত করে একটি নতুন ইন্টারফেস তৈরি করবে, যার মধ্যে মোট চারটি প্রপার্টি থাকবে:
+   - `name: string`
+   - `age: number`
+   - `department: string`
+   - `salary: number`
+
+4. **অবজেক্ট তৈরি:**  
+   এখন, যখন আমরা `Employee` টাইপের একটি অবজেক্ট তৈরি করি, তখন এটি সব চারটি প্রপার্টি ধারণ করবে: `name`, `age`, `department`, এবং `salary`।
+
+5. **কনসোল আউটপুট:**  
+   আমরা কনসোল লগের মাধ্যমে অবজেক্টের সব প্রপার্টি দেখতে পাচ্ছি, যেমন:
+   - `emp.name`  → `John Doe`
+   - `emp.age`   → `28`
+   - `emp.department` → `Engineering`
+   - `emp.salary` → `50000`
+
+### কেন Declaration Merging ব্যবহার করা হচ্ছে?
+
+**Declaration Merging** TypeScript-এর একটি শক্তিশালী ফিচার যা একই নামের ইন্টারফেস একত্রিত করার সুযোগ দেয়। এর ফলে, আমরা একাধিক স্থানে একই নামের ইন্টারফেস ঘোষণা করতে পারি এবং TypeScript স্বয়ংক্রিয়ভাবে সব প্রপার্টি মার্জ করে।
+
+এটি সাধারণত বড় কোডবেস বা লাইব্রেরি ব্যবহারের সময় কাজে আসে, যেখানে আপনি একটি ইন্টারফেসের নতুন প্রপার্টি বা ফিচার যুক্ত করতে পারেন, বিশেষ করে যখন অন্যদের কোডে কোনো পরিবর্তন না এনে নতুন ফিচার যোগ করতে হয়।
+
+### উদাহরণ যেখানে Declaration Merging বিশেষভাবে ব্যবহার হয়:
+
+ধরা যাক, আপনি একটি ব্রাউজার বা বড় অ্যাপ্লিকেশন তৈরি করছেন এবং তার পরবর্তী আপডেটের জন্য কিছু নতুন প্রপার্টি যোগ করতে চান, কিন্তু আগের কোডে কোনো পরিবর্তন করতে চান না। আপনি ঐ একই নামের ইন্টারফেস ব্যবহার করে নতুন প্রপার্টি যোগ করতে পারেন।
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+**ডিক্লেয়ারেশন মার্জিং** ব্যবহার করা হচ্ছে
+
+### নতুন উদাহরণ: Declaration Merging
+
+এবার আমি **Declaration Merging** ব্যবহার করে একটি বাস্তব উদাহরণ দেব, যেখানে আমরা **একই নামের ইন্টারফেস** একাধিকবার ঘোষণা করব এবং TypeScript সেই দুটি ইন্টারফেস একত্রিত করে মার্জ করবে।
+
+### কোড:
+
+```typescript
+// প্রথম ইন্টারফেস: Library (লাইব্রেরির প্রাথমিক তথ্য)
+interface Library {
+  name: string;
+  location: string;
+}
+
+// দ্বিতীয় ইন্টারফেস: Library (লাইব্রেরির আরও তথ্য যোগ করা হচ্ছে)
+interface Library {
+  booksAvailable: number;
+  hasOnlineCatalog: boolean;
+}
+
+// এখন, একটি অবজেক্ট তৈরি করি 'Library' টাইপের, যেটি দুটি ইন্টারফেসের সব প্রপার্টি ধারণ করবে
+const myLibrary: Library = {
+  name: "Central Library",
+  location: "Downtown",
+  booksAvailable: 5000,
+  hasOnlineCatalog: true
+};
+
+// কনসোল লগে সব প্রপার্টি দেখা যাচ্ছে
+console.log(myLibrary.name);             // Central Library
+console.log(myLibrary.location);         // Downtown
+console.log(myLibrary.booksAvailable);   // 5000
+console.log(myLibrary.hasOnlineCatalog); // true
+```
+
+### ব্যাখ্যা:
+
+1. **প্রথম ইন্টারফেস (Library):**  
+   প্রথমে, আমরা `Library` নামের একটি ইন্টারফেস ঘোষণা করি যেখানে **`name`** এবং **`location`** নামে দুটি প্রপার্টি রয়েছে।  
+   ```typescript
+   interface Library {
+     name: string;
+     location: string;
+   }
+   ```
+
+2. **দ্বিতীয় ইন্টারফেস (Library):**  
+   তারপর, আমরা আবার **`Library`** নামের আরেকটি ইন্টারফেস ঘোষণা করি এবং এতে নতুন দুটি প্রপার্টি যোগ করি:
+   - `booksAvailable: number` (লাইব্রেরিতে বইয়ের সংখ্যা)
+   - `hasOnlineCatalog: boolean` (লাইব্রেরির কি অনলাইন ক্যাটালগ রয়েছে?)
+   ```typescript
+   interface Library {
+     booksAvailable: number;
+     hasOnlineCatalog: boolean;
+   }
+   ```
+
+3. **ডিক্লেয়ারেশন মার্জিং:**  
+   TypeScript এই দুটি ইন্টারফেস মার্জ করবে। অর্থাৎ, `Library` নামের ইন্টারফেসের মধ্যে সব প্রপার্টি একত্রিত হয়ে যাবে। এখন, এই ইন্টারফেসটি হবে:
+   - `name: string`
+   - `location: string`
+   - `booksAvailable: number`
+   - `hasOnlineCatalog: boolean`
+
+   TypeScript স্বয়ংক্রিয়ভাবে এই সব প্রপার্টি একত্রিত করবে এবং `Library` টাইপের অবজেক্টে ব্যবহার করতে পারব।
+
+4. **অবজেক্ট তৈরি:**  
+   আমরা `myLibrary` নামে একটি অবজেক্ট তৈরি করি যা `Library` টাইপের এবং এতে সব প্রপার্টি থাকবে:
+   - `name: "Central Library"`
+   - `location: "Downtown"`
+   - `booksAvailable: 5000`
+   - `hasOnlineCatalog: true`
+
+5. **কনসোল আউটপুট:**  
+   অবজেক্টের সব প্রপার্টি কনসোল লগে আউটপুট হিসেবে দেখাচ্ছি:
+   - `myLibrary.name` → `"Central Library"`
+   - `myLibrary.location` → `"Downtown"`
+   - `myLibrary.booksAvailable` → `5000`
+   - `myLibrary.hasOnlineCatalog` → `true`
+
+### কেন Declaration Merging ব্যবহার করা হচ্ছে?
+
+**Declaration Merging** ব্যবহার করা হয়েছে যাতে:
+- আপনি একটি ইন্টারফেসকে কয়েকটি অংশে ভাগ করতে পারেন এবং সেগুলো পরে একত্রিত হয়ে একটি সম্পূর্ণ ইন্টারফেসে পরিণত হবে।
+- এটি বড় অ্যাপ্লিকেশনে খুব উপকারী, যেখানে একে অপরের সাথে কোডের বিভিন্ন অংশের জন্য একাধিক ইন্টারফেস যুক্ত করা হয়, কিন্তু পুরানো কোডে কোনো পরিবর্তন আনতে হয় না।
+  
+যেমন, যদি আপনি প্রথমে একটি সাধারণ `Library` ইন্টারফেস তৈরি করেন, পরে নতুন কোনো প্রপার্টি যোগ করতে চান, তবে আপনি আবার `Library` ইন্টারফেস ব্যবহার করতে পারেন, এবং TypeScript সেগুলো একত্রিত করবে।
+
+
+
+- **Declaration Merging** খুবই শক্তিশালী এবং TypeScript আপনাকে একই নামের ইন্টারফেস একাধিকবার ব্যবহার করতে দেয়। এতে আপনার কোডকে আরও মডুলার এবং সুষম রাখা সম্ভব হয়।
+- আপনি যখন একটি লাইব্রেরি বা বড় অ্যাপ্লিকেশন তৈরি করছেন এবং এতে বিভিন্ন অংশের তথ্য একত্রিত করতে চান, তখন Declaration Merging অত্যন্ত সাহায্যকারী হয়।
+
+এটি **TypeScript**-এর একটি অসাধারণ বৈশিষ্ট্য যা কোডকে আরও শক্তিশালী এবং নমনীয় করে তোলে।
 
 
 
@@ -508,12 +680,128 @@ const myWindow: Window = {
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+- একটি কাস্টম **Library** তৈরি করা যেখানে একাধিক ইন্টারফেস মার্জ (merging) করা হবে।
+- একটি বেস ইন্টারফেস দিয়ে শুরু করা এবং তা থেকে **extends** করা।
 
+### উদাহরণ:
 
+ধরা যাক আমাদের একটি `Library` নামের ইন্টারফেস রয়েছে এবং আমরা সেটি **extend** করে আরও কিছু নতুন তথ্য যোগ করতে চাই। এরপর, আমরা **declaration merging** ব্যবহার করব।
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------------------------------------------
+### কোড:
 
+```typescript
+// প্রথম ইন্টারফেস: Library (লাইব্রেরির মূল তথ্য)
+interface Library {
+  name: string;
+  location: string;
+}
+
+// দ্বিতীয় ইন্টারফেস: Library (লাইব্রেরির আরও কিছু প্রপার্টি যোগ করা)
+interface Library {
+  booksAvailable: number;
+  hasOnlineCatalog: boolean;
+}
+
+// বেস ইন্টারফেস: LibraryUser (লাইব্রেরি ব্যবহারকারীর তথ্য)
+interface LibraryUser {
+  userId: number;
+  userName: string;
+}
+
+// LibraryUser ইন্টারফেসকে আমরা Library এর সাথে merge করতে যাচ্ছি
+interface LibraryUser extends Library {
+  borrowedBooks: string[];
+}
+
+// অবশেষে, আমরা একটি অবজেক্ট তৈরি করব যা Library এবং LibraryUser দুটো ইন্টারফেসকেই একসাথে ধারণ করবে।
+const myLibraryUser: LibraryUser = {
+  name: "Central Library",
+  location: "Downtown",
+  booksAvailable: 5000,
+  hasOnlineCatalog: true,
+  userId: 101,
+  userName: "Alice",
+  borrowedBooks: ["Harry Potter", "JavaScript Guide"]
+};
+
+// কনসোল লগে অবজেক্টের সব প্রপার্টি প্রদর্শন
+console.log(myLibraryUser.name);              // Central Library
+console.log(myLibraryUser.location);          // Downtown
+console.log(myLibraryUser.booksAvailable);    // 5000
+console.log(myLibraryUser.hasOnlineCatalog);  // true
+console.log(myLibraryUser.userId);            // 101
+console.log(myLibraryUser.userName);          // Alice
+console.log(myLibraryUser.borrowedBooks);     // [ 'Harry Potter', 'JavaScript Guide' ]
+```
+
+### ব্যাখ্যা:
+
+1. **প্রথম ইন্টারফেস `Library`:**
+   - এখানে আমরা `Library` নামে একটি ইন্টারফেস তৈরি করেছি যার মধ্যে ২টি প্রপার্টি রয়েছে:
+     - `name: string` (লাইব্রেরির নাম)
+     - `location: string` (লাইব্রেরির অবস্থান)
+
+   ```typescript
+   interface Library {
+     name: string;
+     location: string;
+   }
+   ```
+
+2. **দ্বিতীয় ইন্টারফেস `Library`:**
+   - এরপর আমরা আবার একই নামের `Library` ইন্টারফেস তৈরি করি, কিন্তু এবার আরও কিছু নতুন প্রপার্টি যোগ করি:
+     - `booksAvailable: number` (লাইব্রেরিতে কতগুলো বই রয়েছে)
+     - `hasOnlineCatalog: boolean` (লাইব্রেরিতে কি অনলাইন ক্যাটালগ রয়েছে?)
+
+   ```typescript
+   interface Library {
+     booksAvailable: number;
+     hasOnlineCatalog: boolean;
+   }
+   ```
+
+   **Declaration Merging**: TypeScript স্বয়ংক্রিয়ভাবে এই দুটি ইন্টারফেস একত্রিত করবে, ফলে আমাদের `Library` ইন্টারফেসে **name**, **location**, **booksAvailable**, এবং **hasOnlineCatalog** এই চারটি প্রপার্টি থাকবে।
+
+3. **নতুন ইন্টারফেস `LibraryUser`:**
+   - এবার আমরা একটি নতুন ইন্টারফেস `LibraryUser` তৈরি করেছি, যা ব্যবহারকারী সম্পর্কিত তথ্য ধারণ করবে:
+     - `userId: number` (ব্যবহারকারীর আইডি)
+     - `userName: string` (ব্যবহারকারীর নাম)
+     
+   ```typescript
+   interface LibraryUser {
+     userId: number;
+     userName: string;
+   }
+   ```
+
+4. **`LibraryUser` ইন্টারফেসকে `Library` ইন্টারফেস থেকে এক্সটেন্ড করা:**
+   - আমরা `LibraryUser` ইন্টারফেসটিকে **extends** keyword দিয়ে `Library` ইন্টারফেস থেকে এক্সটেন্ড করেছি, অর্থাৎ `LibraryUser` এখন `Library` ইন্টারফেসের সব প্রপার্টি এবং আরও কিছু নতুন প্রপার্টি ধারণ করবে।
+   - এখানে নতুন প্রপার্টি হিসাবে যোগ করা হয়েছে:
+     - `borrowedBooks: string[]` (ব্যবহারকারী যে বইগুলো ধার নিয়েছে, সেগুলোর তালিকা)
+
+   ```typescript
+   interface LibraryUser extends Library {
+     borrowedBooks: string[];
+   }
+   ```
+
+5. **অবশেষে, একটি অবজেক্ট তৈরি করা `LibraryUser` টাইপের:**
+   - এখন, আমরা `myLibraryUser` নামের একটি অবজেক্ট তৈরি করেছি যা `LibraryUser` টাইপের। এর মধ্যে সবগুলো প্রপার্টি থাকবে:
+     - `name`, `location`, `booksAvailable`, `hasOnlineCatalog`, `userId`, `userName`, এবং `borrowedBooks`।
+
+6. **কনসোল আউটপুট:**
+   - অবজেক্টের সব প্রপার্টি কনসোল লগে আউটপুট দেখানো হয়েছে:
+     - লাইব্রেরির নাম, অবস্থান, বইয়ের সংখ্যা, অনলাইন ক্যাটালগের অবস্থা, ব্যবহারকারীর আইডি, নাম এবং ধার করা বইগুলোর তালিকা।
+
+### **Why use `extends` and Merging here?**
+
+- **`extends`**: এখানে `LibraryUser` ইন্টারফেসকে `Library` ইন্টারফেস থেকে এক্সটেন্ড করা হয়েছে, যার মাধ্যমে `LibraryUser` ইন্টারফেসটি `Library` এর সব প্রপার্টি পেয়ে যায়। এটি ব্যবহারকারীকে লাইব্রেরির সম্পূর্ণ তথ্য প্রদানের জন্য সহায়ক।
+  
+- **Declaration Merging**: এখানে আমরা একাধিকবার `Library` ইন্টারফেস ডিফাইন করেছি, এবং TypeScript স্বয়ংক্রিয়ভাবে তাদের মার্জ করেছে, ফলে লাইব্রেরি সম্পর্কে আরও বিস্তৃত তথ্য প্রদান করা সম্ভব হয়েছে।
+
+এই পদ্ধতিটি বড় অ্যাপ্লিকেশন বা লাইব্রেরির কোডে খুব উপকারী, যেখানে আপনি বিভিন্ন অংশে আলাদা আলাদা তথ্য যোগ করতে পারেন, এবং শেষে এগুলো একত্রিত করে একটি পূর্ণাঙ্গ অবজেক্ট তৈরি করতে পারেন। 
+
+এভাবে আপনি TypeScript-এর `extends` এবং **declaration merging** এর শক্তি ব্যবহার করে কোড আরও মডুলার এবং পঠনযোগ্য রাখতে পারেন।
 
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
